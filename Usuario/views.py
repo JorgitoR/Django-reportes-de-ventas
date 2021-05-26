@@ -1,7 +1,8 @@
 from django.shortcuts import render
 from django.urls import reverse_lazy
-from django.views.generic import ListView, DeleteView, UpdateView, DetailView, CreateView
-from django.http import JsonResponse
+
+from django.views.generic import ListView, DeleteView, UpdateView, DetailView, CreateView, View
+from django.http import JsonResponse, HttpResponseRedirect
 
 from .models import Usuario
 from .forms import UsuarioForm
@@ -93,3 +94,32 @@ class UsuarioActualizar(UpdateView):
 		return context
 
 class UsuarioDeleteView(DeleteView):
+	model = Usuario
+	template_name = 'usuario/eliminar.html'
+	success_url = reverse_lazy()
+
+
+	def post(self, request, *args, **kwargs):
+		data = {}
+
+		try: 
+			self.object.delete()
+		except Exception as e:
+			data['error']= str(e)
+		return JsonResponse(data)
+
+	def get_context_data(self, **kwargs):
+		context = super().get_context_data(**kwargs)
+		context['titulo']='Eliminacion de usuario'
+		context['entidad'] = 'Usuarios'
+		context['lista_url']=self.success_url
+		return context
+
+class UsuarioCambiarGrupo(View):
+
+	def get(self, request, *args, **kwargs):
+		try:
+			request.session['group'] = Group.objects.get(pk=self.kwargs['pk'])
+		except:
+			pass
+		return HttpResponseRedirect(reverse_lazy())
