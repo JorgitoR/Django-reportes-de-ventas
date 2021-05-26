@@ -4,6 +4,15 @@ from django.forms import model_to_dict
 
 from AppVentas.settings import MEDIA_URL, STATIC_URL
 
+
+genero = (
+
+	('hombre', 'Masculino'),
+	('mujer', 'Femenino')
+
+)
+
+
 class categoria(models.Model):
 	nombre = models.CharField(max_length=100)
 
@@ -38,4 +47,12 @@ class producto(models.Model):
 		verbose_name_plurarl = 'Productos'
 		ordering = ['id']
 
+
+class Cliente(models.Model):
+	nombre = models.CharField(max_length=20)
+	apellido = models.CharField(max_length=20)
+	identidad = models.CharField(max_length=20)
+	fecha_born = models.DateField(default=datetime.now, verbose_name='Fecha de nacimiento')
+	direcion = models.CharField(max_length=30)
+	gener = models.CharField(max_length=10, choices=genero, default='', verbose_name='Sexo')
 
