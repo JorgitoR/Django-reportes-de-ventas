@@ -63,4 +63,14 @@ class Cliente(models.Model):
 	def get_full_name(self):
 		return '{} {} / {}'.format(self.nombre, self.apellido, self.identidad)
 
-	
+	def toJSON(self):
+		item = model_to_dict()
+		item['genero'] = {'id': self.genero, 'nombre': self.get_gender_display()}
+		item['fecha_born'] = self.fecha_born.strftime('%Y-%m-%d')
+		item['full_name'] = self.get_full_name()
+		return item
+
+	class Meta:
+		verbose_name = 'Cliente'
+		verbose_name_plurarl = 'Clientes'
+		ordering = ['id']
