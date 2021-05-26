@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     #App locales
 
     'Usuario',
+    'tablero'
 ]
 
 MIDDLEWARE = [
