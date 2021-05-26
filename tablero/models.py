@@ -85,3 +85,26 @@ class Venta(models.Model):
 	
 	def __str__(self):
 		return self.cliente.nombre
+
+	def toJSON(self):
+		item = model_to_dict()
+		item['cliente'] = self.cliente.toJSON()
+		item['subtotal'] = format(self.subtotal, '.2f')
+		item['iva'] = format(self.iva, '.2f')
+		item['total'] = format(self.total, '.2f')
+		item['date_joined'] = self.date_joined.strftime('%Y-%m-%d')
+		item['det'] = [i.toJSON() for i in sel.detallesventas_set.all()]
+		return item
+
+class detallesventas(models.Model):
+	venta = models.ForeignKey(Venta, on_delete=models.CASCADE)
+	producto = models.ForeignKey(producto, on_delete=models.CASCADE)
+	precio =  models.DecimalField(default=0.00, max_digits=9, decimal_places=2)
+	cantidad = models.IntegerField(default=0)
+	subtotal = models.DecimalField(default=0.00, max_digits=9, decimal_places=2)
+
+
+	def __str__(self):
+		return self.producto.nombre
+
+	
