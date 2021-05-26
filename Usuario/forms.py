@@ -73,3 +73,28 @@ class UsuarioForm(forms.ModelForm):
 		]
 
 	def save(self, commit=True):
+		data = {}
+		form = super().save(commit=False)
+		try:
+			if form.is_valid():
+				password = self.cleaned_data['password']
+				u = form.save(commit=False)
+				if u.pk is None:
+					u.set_password(password)
+				else:
+					usuario = Usuario.objects.get(pk=u.pk)
+					if usuario.password != password:
+						u.set_password(password)
+				u.save()
+				u.groups.clear()
+
+				for g in self.cleaned_data['groups']:
+					u.groups.add(g)
+
+			else:
+				data['errores'] = form.errors
+
+		except Exception as e:
+			data['error'] = str(e)
+
+		return data
