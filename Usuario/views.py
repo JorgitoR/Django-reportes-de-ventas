@@ -60,3 +60,36 @@ class UsuarioCrearView(CreateView):
 		context['lista_url'] = self.success_url
 		context['action'] = 'add'
 		return context
+
+
+class UsuarioActualizar(UpdateView):
+	model = Usuario
+	form_class = UsuarioForm
+	template_name = 'usuario/crear.html'
+	success_url = reverse_lazy()
+
+	def post(self, request, *args, **kwargs):
+		data = {}
+
+		try:
+			action = request.POST['action']
+
+			if action == 'edit':
+				form = self.get_form()
+				data = form.save()
+			else:
+				data['error'] = 'No has ingresado alguna opcion'
+
+		except Exception as e:
+			data['error'] = str(e)
+		return JsonResponse(data)
+
+	def get_context_data(self, **kwargs):
+		context = super().get_context_data(**kwargs)
+		context['titulo'] = 'Edicion de usuarios'
+		context['entidad'] = 'Usuarios'
+		context['lista_url'] = self.success_url
+		context['action'] = 'edit'
+		return context
+
+class UsuarioDeleteView(DeleteView):
