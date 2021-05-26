@@ -1,11 +1,11 @@
 from django.db import models
-from django.contrib.auth.models import AbstracUser
+from django.contrib.auth.models import AbstractUser
 
 from django.forms import model_to_dict
 
-from settings import MEDIA_URL, STATIC_URL
+from AppVentas.settings import MEDIA_URL, STATIC_URL
 
-class Usuario(AbstracUser):
+class Usuario(AbstractUser):
 	imagen = models.ImageField(upload_to='usuario/%Y/%m/%d', null=True, blank=True)
 	token = models.UUIDField(primary_key=False, editable=False, null=True, blank=True)
 
@@ -23,4 +23,13 @@ class Usuario(AbstracUser):
 		item['full_name'] = self.get_full_name()
 		item['groups'] = [{'id':g.id, 'name':g.name} for g in self.groups.all()]
 		return item
-		
+
+	def get_group_session(self):
+		try:
+			request = get_current_request()
+			groups = self.groups.all()
+			if groups.exists():
+				if 'group' not in request.session:
+					request.session['group'] = groups[0]
+		except:
+			pass
