@@ -123,3 +123,36 @@ class UsuarioCambiarGrupo(View):
 		except:
 			pass
 		return HttpResponseRedirect(reverse_lazy())
+
+
+class UsuaioPerfil(UpdateView):
+	model = Usuario
+	form_class = UsuarioForm
+	template_name = 'usuario/perfil.html'
+	success_url = reverse_lazy()
+
+	def get_object(self, queryset=None):
+		return self.request.user 
+
+	def post(self, request, *args, **kwargs):
+		data = {}
+		try:
+			action = request.POST['action']
+			if action == 'edit':
+				form = self.get_form()
+				data = form.save()
+			else:
+				data['error'] = 'No has ingresado alguna opcion'
+
+		except Exception as e:
+			data['error'] = str(e)
+
+		return JsonResponse(data)
+
+	def get_context_data(self, **kwargs):
+		context = super().get_context_data(**kwargs)
+		context['titulo'] = 'Edicion de perfil'
+		context['entidad'] = 'Perfil'
+		context['lista_url'] = self.success_url
+		context['action'] = 'edit'
+		return context
