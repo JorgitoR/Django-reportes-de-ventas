@@ -20,7 +20,7 @@ class categoria(models.Model):
 		return self.nombre
 
 class producto(models.Model):
-	categoria = models.ForeignKey(categoria)
+	categoria = models.ForeignKey(categoria, on_delete=models.CASCADE)
 	nombre = models.CharField(max_length=150, verbose_name='Nombre del producto')
 	imagen = models.ImageField(upload_to='producto/%Y/%m/%d', null=True, blank=True)
 	stock = models.IntegerField(default=0, verbose_name='Stock')
@@ -44,7 +44,7 @@ class producto(models.Model):
 
 	class Meta:
 		verbose_name = 'Producto'
-		verbose_name_plurarl = 'Productos'
+		verbose_name_plural = 'Productos'
 		ordering = ['id']
 
 
@@ -72,5 +72,16 @@ class Cliente(models.Model):
 
 	class Meta:
 		verbose_name = 'Cliente'
-		verbose_name_plurarl = 'Clientes'
+		verbose_name_plural = 'Clientes'
 		ordering = ['id']
+
+
+class Venta(models.Model):
+	cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
+	date_joined = models.DateField(default=timezone.now)
+	subtotal = models.DecimalField(default=0.00, max_digits=9, decimal_places=2)
+	iva = models.DecimalField(default=0.00, max_digits=9, decimal_places=2)
+	total = models.DecimalField(default=0.00, max_digits=9, decimal_places=2)
+	
+	def __str__(self):
+		return self.cliente.nombre
