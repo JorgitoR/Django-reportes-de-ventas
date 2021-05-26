@@ -1,5 +1,5 @@
 from django import forms
-from .Usuario import Usuario
+from .models import Usuario
 
 class UsuarioForm(forms.ModelForm):
 
@@ -15,7 +15,7 @@ class UsuarioForm(forms.ModelForm):
 			'email',
 			'username',
 			'password',
-			'image',
+			'imagen',
 			'groups'
 
 		]
@@ -27,7 +27,7 @@ class UsuarioForm(forms.ModelForm):
 					'placeholder':'Ingrese su nombre',
 				}
 			),
-			'last_name' forms.TextInput(
+			'last_name': forms.TextInput(
 				attrs={
 					'placeholder':'Ingrese su apellido',
 				}
@@ -54,9 +54,9 @@ class UsuarioForm(forms.ModelForm):
 
 			'groups': forms.SelectMultiple(
 				attrs={
-					'class': 'form-control select2'
+					'class': 'form-control select2',
 					'style': ' width:100%',
-					'multiple': 'multiple'
+					'multiple': 'multiple',
 				}
 			)
 

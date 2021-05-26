@@ -38,7 +38,7 @@ class UsuarioCrearView(CreateView):
 	model = Usuario
 	form_class = UsuarioForm
 	template_name = 'usuario/crear.html'
-	success_url = reverse_lazy()
+	success_url = reverse_lazy('usuario_lista')
 
 	def post(self, request, *args, **kwargs):
 		data = {}
@@ -67,7 +67,7 @@ class UsuarioActualizar(UpdateView):
 	model = Usuario
 	form_class = UsuarioForm
 	template_name = 'usuario/crear.html'
-	success_url = reverse_lazy()
+	success_url = reverse_lazy('usuario_listas')
 
 	def post(self, request, *args, **kwargs):
 		data = {}
@@ -96,7 +96,7 @@ class UsuarioActualizar(UpdateView):
 class UsuarioDeleteView(DeleteView):
 	model = Usuario
 	template_name = 'usuario/eliminar.html'
-	success_url = reverse_lazy()
+	success_url = reverse_lazy('usuario_lista')
 
 
 	def post(self, request, *args, **kwargs):
