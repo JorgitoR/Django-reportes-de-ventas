@@ -56,3 +56,11 @@ class Cliente(models.Model):
 	direcion = models.CharField(max_length=30)
 	gener = models.CharField(max_length=10, choices=genero, default='', verbose_name='Sexo')
 
+
+	def __str__(self):
+		return self.get_full_name()
+
+	def get_full_name(self):
+		return '{} {} / {}'.format(self.nombre, self.apellido, self.identidad)
+
+	
