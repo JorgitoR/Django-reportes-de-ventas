@@ -1,6 +1,7 @@
 from django.db import models
 
 from django.forms import model_to_dict
+from datetime import datetime
 
 from AppVentas.settings import MEDIA_URL, STATIC_URL
 
@@ -64,7 +65,7 @@ class Cliente(models.Model):
 		return '{} {} / {}'.format(self.nombre, self.apellido, self.identidad)
 
 	def toJSON(self):
-		item = model_to_dict()
+		item = model_to_dict(self)
 		item['genero'] = {'id': self.genero, 'nombre': self.get_gender_display()}
 		item['fecha_born'] = self.fecha_born.strftime('%Y-%m-%d')
 		item['full_name'] = self.get_full_name()
@@ -78,7 +79,7 @@ class Cliente(models.Model):
 
 class Venta(models.Model):
 	cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
-	date_joined = models.DateField(default=timezone.now)
+	date_joined = models.DateField(default=datetime.now)
 	subtotal = models.DecimalField(default=0.00, max_digits=9, decimal_places=2)
 	iva = models.DecimalField(default=0.00, max_digits=9, decimal_places=2)
 	total = models.DecimalField(default=0.00, max_digits=9, decimal_places=2)
@@ -87,7 +88,7 @@ class Venta(models.Model):
 		return self.cliente.nombre
 
 	def toJSON(self):
-		item = model_to_dict()
+		item = model_to_dict(self)
 		item['cliente'] = self.cliente.toJSON()
 		item['subtotal'] = format(self.subtotal, '.2f')
 		item['iva'] = format(self.iva, '.2f')
@@ -107,4 +108,10 @@ class detallesventas(models.Model):
 	def __str__(self):
 		return self.producto.nombre
 
-	
+	def toJSON(self):
+		item = model_to_dict(self, exclude=['venta'])
+		item['producto'] = self.producto.toJSON()
+		item['precio'] = format(self.precio, '.2f')
+		item['subtotal'] = format(self.subtotal, '.2f')
+		return item
+

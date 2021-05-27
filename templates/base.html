@@ -1,0 +1,68 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>{% block title %} {% endblock title %}</title>
+
+{% block head %}
+
+
+    <!-- jQuery -->
+    <script src="{% static 'lib/adminlte-3.0.4/plugins/jquery/jquery.min.js' %}"></script>
+    <!-- Jquery Confirm -->
+    <link rel="stylesheet" href="{% static 'lib/jquery-confirm-v3.3.4/jquery-confirm.min.css' %}">
+
+      <link rel="stylesheet" href="{% static 'lib/datatables-1.10.20/css/dataTables.bootstrap4.min.css' %}"/>
+    <link rel="stylesheet"
+          href="{% static 'lib/datatables-1.10.20/plugins/responsive-2.2.3/css/responsive.bootstrap4.min.css' %}"/>
+    <script src="{% static 'lib/datatables-1.10.20/js/jquery.dataTables.js' %}"></script>
+    <script src="{% static 'lib/datatables-1.10.20/js/dataTables.bootstrap4.min.js' %}"></script>
+    <script src="{% static 'lib/datatables-1.10.20/plugins/responsive-2.2.3/js/dataTables.responsive.min.js' %}"></script>
+    <script src="{% static 'lib/datatables-1.10.20/plugins/responsive-2.2.3/js/responsive.bootstrap4.min.js' %}"></script>
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+
+
+    {% block head_list %}
+
+    {% endblock %}
+
+{% endblock %}
+
+</head>
+<body class="bg-light">
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+        <div class="container">
+            <h1><a href="" class="navbar-brand">
+            <strong>Reportes</strong></a></h1>
+            <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse justify-content-end " id="navbar">
+                {% if not request.user.is_active %}
+                <a href="" class="btn btn-info mt-1 mx-1">Leaderboard</a>
+                <a href="" class="btn btn-info mt-1"><i class="fa fa-sign-in" aria-hidden="true"></i> Log In</a>
+                {% else %}
+                <h6 class="text-white mt-2 mr-2">Bienvenido, {{ request.user.username }} | </h6>
+                <h6 class="text-white mt-2 mr-2"><a href="" class="text-white">Tablero</a> |</h6>
+                <h6 class="mt-2"><a href="" class="text-white">Vamos a jugar</a></h6>
+                <a href="" class="btn btn-danger mt-1 mx-1">Log Out <i class="fa fa-sign-out" aria-hidden="true"></i></a>
+                {% endif %}
+            </div>
+        </div>
+
+    </nav>
+
+    {% block contenido %}
+    {% endblock  %}
+    <footer class="bg-light text-muted py-0">
+        <div class="container py-4">
+            <ul class="list-inline mb-0 text-center">
+                <li class="list-inline-item">&copy; 2021 Hagamos un Quiz.</li>
+                <li class="list-inline-item">Todo los derechos reservados</li>
+            </ul>
+        </div>
+    </footer>
+
+</body>
+</html>
