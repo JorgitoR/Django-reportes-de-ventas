@@ -2,17 +2,81 @@
 
 
 {% block contenido %}
-	
-	{{ compras }}
+<nav>
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item active">
+			Mis Compras
+		</li>
+	</ol>
+</nav>
 
-	{% for compra in compras %}
-			<p>
-				{{compra.cliente}}
-			</p>
 
-			<p>
-				{{compra.date_joined}}
-			</p>
-	{% endfor %}
+<h2 class="mb-3">
+	Mis compras
+</h2>
+
+
+<div class="card">
+	<table class="table mb-0">
+		<thead>
+		<tr>
+			<th>
+				Id
+			</th>
+			<th>
+				Nombre
+			</th>
+			<th>
+				Producto
+			</th>
+			<th>
+				Fecha
+			</th>
+			<th>
+				iva
+			</th>
+			<th>
+				SubTotal
+			</th>
+			<th>
+				Total
+			</th>
+		</tr>
+		</thead>
+		<tbody>
+			{% for compra in compras %}
+				<td class="align-middle">
+					{{compra.id}}
+				</td>
+
+				<td class="align-middle">
+					{{compra.cliente.username}}
+				</td>
+
+				<td class="align-middle">
+					{{compra.producto}}
+				</td>
+
+				<td class="align-middle">
+					{{compra.date_joined}}
+				</td>
+
+				<td class="align-middle">
+					{{compra.iva}}
+				</td>
+
+				<td class="align-middle">
+					{{compra.subtotal}}
+				</td>
+
+
+				<td class="align-middle">
+					{{compra.total}}
+				</td>
+			{% endfor %}
+		</tbody>
+	</table>
+</div>
+
 
 {% endblock %}
