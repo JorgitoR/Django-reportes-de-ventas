@@ -35,9 +35,11 @@ def UsuarioLogin(request):
 class MisCompras(ListView):
 	model = Venta
 	template_name = 'usuario/mis_compras.html'
+	context_object_name= 'compras'
 
 	def get_queryset(self):
-		queryset = self.request.user.venta
+		queryset = self.request.user.venta \
+			.select_related('cliente')
 
 		return queryset
 
