@@ -5,6 +5,7 @@ from datetime import datetime
 
 from AppVentas.settings import MEDIA_URL, STATIC_URL
 
+from Usuario.models import Usuario
 
 genero = (
 
@@ -78,14 +79,14 @@ class Cliente(models.Model):
 
 
 class Venta(models.Model):
-	cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
+	cliente = models.ForeignKey(Usuario, on_delete=models.CASCADE)
 	date_joined = models.DateField(default=datetime.now)
 	subtotal = models.DecimalField(default=0.00, max_digits=9, decimal_places=2)
 	iva = models.DecimalField(default=0.00, max_digits=9, decimal_places=2)
 	total = models.DecimalField(default=0.00, max_digits=9, decimal_places=2)
 	
 	def __str__(self):
-		return self.cliente.nombre
+		return self.cliente.username
 
 	def toJSON(self):
 		item = model_to_dict(self)

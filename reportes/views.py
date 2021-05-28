@@ -34,7 +34,7 @@ class ReporteVentas(TemplateView):
 					data.append([
 
 						s.id,
-						s.cliente.nombre,
+						s.cliente.username,
 						s.date_joined.strftime('%Y-%m-%d'),
 						format(s.subtotal, '.2f'),
 						format(s.iva, '.2f'),

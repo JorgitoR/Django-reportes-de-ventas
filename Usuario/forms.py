@@ -74,7 +74,7 @@ class UsuarioForm(forms.ModelForm):
 
 	def save(self, commit=True):
 		data = {}
-		form = super().save(commit=False)
+		form = super()
 		try:
 			if form.is_valid():
 				password = self.cleaned_data['password']
