@@ -1,11 +1,47 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 
 from django.views.generic import ListView, DeleteView, UpdateView, DetailView, CreateView, View
 from django.http import JsonResponse, HttpResponseRedirect
 
 from .models import Usuario
-from .forms import UsuarioForm
+from tablero.models import Venta
+from .forms import UsuarioForm, LoginForm
+
+from django.contrib.auth import authenticate, login, logout
+
+
+def UsuarioLogin(request):
+
+	form = LoginForm(request.POST)
+	if form.is_valid():
+		username = form.cleaned_data.get("username")
+		password = form.cleaned_data.get("password")
+		usuario = authenticate(username=username, password=password)
+		login(request, usuario)
+
+		if request.user.is_active and not request.user.is_staff:
+			return redirect('MisCompras')
+		elif request.user.is_staff :
+			return redirect('reporte_venta')
+
+	context = {
+		'form':form
+	}
+
+	return render(request, 'usuario/login.html', context)
+
+
+class MisCompras(ListView):
+	model = Venta
+	template_name = 'usuario/mis_compras.html'
+
+	def get_queryset(self):
+		queryset = self.request.user.venta
+
+		return queryset
+
+
 
 class UsuarioListaView(ListView):
 	model = Usuario

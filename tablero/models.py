@@ -79,7 +79,7 @@ class Cliente(models.Model):
 
 
 class Venta(models.Model):
-	cliente = models.ForeignKey(Usuario, on_delete=models.CASCADE)
+	cliente = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name='venta')
 	date_joined = models.DateField(default=datetime.now)
 	subtotal = models.DecimalField(default=0.00, max_digits=9, decimal_places=2)
 	iva = models.DecimalField(default=0.00, max_digits=9, decimal_places=2)

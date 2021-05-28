@@ -9,12 +9,17 @@ from .views import (
 	UsuarioActualizar,
 	UsuarioDeleteView, 
 	UsuarioCambiarGrupo,
-	UsuaioPerfil
+	UsuaioPerfil,
+
+	UsuarioLogin,
+	MisCompras
 
 	)
 
 urlpatterns = [
 	
+	path('login/', UsuarioLogin, name='UsuarioLogin'),
+	path('mis_compras/', MisCompras.as_view(), name='MisCompras'),
 	path('lista/', UsuarioListaView.as_view(), name='usuario_lista'),
 	path('crear/', UsuarioCrearView.as_view(), name='usuario_crear'),
 	path('actualizar/<int:pk>/', UsuarioActualizar.as_view(), name='usuario_actualizar'),
