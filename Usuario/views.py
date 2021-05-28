@@ -1,7 +1,15 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 
-from django.views.generic import ListView, DeleteView, UpdateView, DetailView, CreateView, View
+from django.views.generic import (
+								ListView, 
+								DeleteView, 
+								UpdateView, 
+								DetailView, 
+								CreateView, 
+								View, 
+								RedirectView)
+
 from django.http import JsonResponse, HttpResponseRedirect
 
 from .models import Usuario
@@ -27,10 +35,18 @@ def UsuarioLogin(request):
 
 	context = {
 		'form':form
+
 	}
 
 	return render(request, 'usuario/login.html', context)
 
+
+class LogoutView(RedirectView):
+	pattern_name = 'login'
+
+	def dispatch(self, request, *args, **kwargs):
+		logout(request)
+		return super().dispatch(request, *args, **kwargs)
 
 class MisCompras(ListView):
 	model = Venta
